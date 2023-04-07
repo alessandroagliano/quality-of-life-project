@@ -1,0 +1,5 @@
+progetto qualità della città ; passaggi
+
+1. implementare webpack, lodash, boostrap.
+creare i file html, index, css(sass sarebbe meglio).
+

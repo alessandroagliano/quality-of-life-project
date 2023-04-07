@@ -1,0 +1,40 @@
+body {
+  font-family: "Open Sans", sans-serif !important;
+  background-color: rgb(227, 245, 251);
+  background-image: var(--bs-gradient) !important;
+}
+
+#header {
+  background-image: url(../img/cityHeader.jpg);
+  height: 220px;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+#totalScore {
+  background-color: rgb(94, 255, 94);
+}
+.card {
+  padding: 20px !important;
+}
+
+#card-body {
+  display: flex;
+}
+
+.progress {
+  height: 10px !important;
+}
+
+#container-Risultati {
+  display: none;
+}
+
+#errorDiv {
+  display: none;
+  .border-danger::placeholder {
+    color: red !important;
+  }
+}
