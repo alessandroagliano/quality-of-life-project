@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Quality of life in cities</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css"
+    />
+    <!--  Favicon -->
+    <link rel="shortcut icon" href="../img/city32px.ico" />
+    <!-- Icone Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script defer src="bundle.js"></script></head>
+  <body>
+    <header id="header"></header>
+    <div class="container col-9 mt-4">
+      <div class="row justify-content-center text-center">
+        <h2>Enter your city and receive quality statistics of life</h2>
+        <!-- BARRA RICERCA -->
+        <div class="col-9">
+          <div>
+            <div class="input-group my-2">
+              <input
+                type="text"
+                class="form-control border"
+                id="città"
+                placeholder="Inserisci la città"
+                aria-label="Inserisci-la-città"
+                aria-describedby="button-addon2"
+              />
+              <button
+                class="btn btn-outline-secondary"
+                type="submit"
+                id="search"
+              >
+                Cerca
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="container-md col-10 justify-content-center" , id="errorDiv">
+          <p>search not found! insert another city</p>
+        </div>
+      </div>
+    </div>
+
+    <!--  RISULTATI  -->
+
+    <div class="container my-3 justify-content-center">
+      <div class="row shadow" id="card-body" style="display: none">
+        <!-- nome città
+          paese
+        abitanti
+      timezone -->
+        <!-- <h2 class="card-title text-center fs-1" id="cardTitle">Card title</h2> -->
+        <div class="col-12 col-md-6 my-3">
+          <!-- FOTO -->
+          <img src="" class="card-img-top col-6" alt="..." id="imgCity" />
+        </div>
+        <div class="col-12 col-md-6 my-4">
+          <p id="nameCity"></p>
+          <p id="country"></p>
+          <p id="inhabitants"></p>
+          <p id="description"></p>
+        </div>
+        <!-- RISULTATI CARD -->
+
+        <div class="col-12 justify-content-center my-2">
+          <div class="row justify-content-center">
+            <div class="col-3">
+              <p class="text-center" id="totalScore">Total Score :</p>
+            </div>
+          </div>
+
+          <p class="text-center">
+            <a
+              class="btn btn-primary"
+              data-bs-toggle="collapse"
+              href="#collapseExample"
+              role="button"
+              aria-expanded="false"
+              aria-controls="collapseExample"
+            >
+              More info
+            </a>
+          </p>
+          <div class="container d-flex justify-content-center">
+            <div class="col collapse" id="collapseExample">
+              <div class="row" ; id="scoreDiv"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer>
+      <div class="row justify-content-center py-3 border-top">
+        <div class="col-md-4 text-center">
+          <span class="testo-copyright"
+            >&copy; 2023 | Produced by Alessandro Aglianò</span
+          >
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <ul class="col-md-4 justify-content-center list-unstyled d-flex">
+          <!-- icone social -->
+          <li>
+            <a
+              class="bi bi-facebook"
+              href="https://www.facebook.com/alessandro.agliano.1"
+            >
+            </a>
+          </li>
+          <li>
+            <a
+              class="bi bi-instagram"
+              href="https://www.instagram.com/alessandroagliano/"
+            >
+            </a>
+          </li>
+          <li>
+            <a class="bi bi-github" href="https://github.com/alessandroagliano">
+            </a>
+          </li>
+        </ul>
+      </div>
+    </footer>
+  </body>
+</html>
