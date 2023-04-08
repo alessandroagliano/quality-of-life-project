@@ -41,4 +41,23 @@ body {
 }
 #errorDiv .border-danger::placeholder {
   color: red !important;
+}
+
+footer ul {
+  /* ---- collegamenti icone social --- */
+  list-style-type: none;
+}
+footer ul li {
+  padding: 0px 30px;
+}
+
+.footer-end {
+  background-color: rgb(244, 244, 244);
+  max-width: 100%;
+}
+
+/* Color Footer */
+.bi {
+  /* colore icone social */
+  color: white;
 }/*# sourceMappingURL=style.css.map */
