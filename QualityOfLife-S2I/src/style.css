@@ -4,6 +4,7 @@ body {
   background-image: var(--bs-gradient) !important;
 }
 
+/* header immagine */
 #header {
   background-image: url(../img/cityHeader.jpg);
   height: 220px;
@@ -13,26 +14,17 @@ body {
   background-position: center;
 }
 
+/* punteggio medio  */
 #totalScore {
   background-color: rgb(94, 255, 94);
 }
 
-.card {
-  padding: 20px !important;
-}
-
-#card-body {
-  display: flex;
-}
-
+/* barra del punteggio dei singoli valori */
 .progress {
   height: 10px !important;
 }
 
-#container-Risultati {
-  display: none;
-}
-
+/* In caso di errore nella ricerca */
 #errorDiv {
   display: none;
 }
@@ -43,21 +35,17 @@ body {
   color: red !important;
 }
 
+/* Footer  */
 footer ul {
-  /* ---- collegamenti icone social --- */
   list-style-type: none;
 }
 footer ul li {
   padding: 0px 30px;
 }
-
-.footer-end {
-  background-color: rgb(244, 244, 244);
-  max-width: 100%;
+footer .py-3 {
+  padding-top: 2rem !important;
 }
 
-/* Color Footer */
 .bi {
-  /* colore icone social */
-  color: white;
+  color: rgb(0, 0, 0); /* colore icone social */
 }/*# sourceMappingURL=style.css.map */
