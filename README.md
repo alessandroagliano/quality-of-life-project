@@ -32,7 +32,7 @@ Inserisci la tua città e ricevi statistiche aggiornate sulla qualità dela vita
 
 ## Screenshot
 
-<img src="./img/homepage.png">
+<img src="./QualityOfLife-S2I/img/homepage.png">
 Screenshoot della’applicazione al suo valore iniziale
 
 ## Utilizzo
