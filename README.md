@@ -23,8 +23,9 @@ Inserisci la tua città e ricevi statistiche aggiornate sulla qualità dela vita
 
 - Html
 - Css
-- Javascript
 - Sass
+- Bootstrap
+- Javascript
 - Webpack
 - Axios
 - Visual Studio Core ( editor )

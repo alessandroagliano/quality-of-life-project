@@ -16,9 +16,20 @@ body {
   background-position: center;
 }
 
+#collapseExample {
+  height: 360px;
+}
+.overflow-auto {
+  height: inherit !important;
+}
 /* punteggio medio  */
+#totalScoreDiv {
+  width: 200px;
+}
 #totalScore {
-  background-color: rgb(94, 255, 94);
+  background-color: rgb(158, 218, 255);
+  border-radius: 20px;
+  padding: 4px;
 }
 
 /* barra del punteggio dei singoli valori */
@@ -49,4 +60,8 @@ footer {
 
 .bi {
   color: $black; /* colore icone social */
+}
+
+.overflow-auto {
+  height: 200px;
 }

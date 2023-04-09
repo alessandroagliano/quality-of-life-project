@@ -42,7 +42,7 @@ export const fetchScore = function () {
       categories.forEach((element) => {
         /* creo i div e inserisco le classi */
         const card = document.createElement("div");
-        card.classList.add("col-6", "col-lg-2", "my-1");
+        card.classList.add("col-6", "my-1");
 
         /* Nome parametro */
         const nameCard = document.createElement("h5");
