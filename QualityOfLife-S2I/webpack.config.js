@@ -44,6 +44,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: "./dist/templateHead.html",
+      favicon: "./img/city32px.ico",
     }),
     new Dotenv({
       path: "./src/environment-variables.env",
