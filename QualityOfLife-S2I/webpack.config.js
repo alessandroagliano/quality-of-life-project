@@ -1,6 +1,7 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
 const axios = require("./node_modules/axios/dist/browser/axios.cjs"); // browser
+const Dotenv = require("dotenv-webpack");
 
 module.exports = {
   mode: "development",
@@ -43,6 +44,9 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: "./dist/templateHead.html",
+    }),
+    new Dotenv({
+      path: "./src/environment-variables.env",
     }),
   ],
   devtool: "inline-source-map",
