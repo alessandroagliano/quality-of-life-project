@@ -16,11 +16,6 @@ const API_DATA = process.env.API_DATA;
 const API_SUMMARY = process.env.API_SUMMARY;
 const API_MEDIUM_SCORE = process.env.API_MEDIUM_SCORE;
 
-console.log(API_URL);
-console.log(API_DATA);
-console.log(API_SUMMARY);
-console.log(API_MEDIUM_SCORE);
-
 //---------------------- CHIAMATA FETCH -----------------
 
 export const fetchScore = function () {
@@ -39,7 +34,6 @@ export const fetchScore = function () {
     axios
       .get(urlScore)
       .then((response) => {
-        console.log(response);
         // Imposto le classi in caso di risposta positiva
         setCardStyleSucces(cardBody, errorDiv, input);
 
@@ -48,7 +42,6 @@ export const fetchScore = function () {
 
         //Inserisco tutti i singoli parametri
         const categories = _.get(response, "data.categories");
-        console.log(categories);
 
         setSingleItem(categories);
       })
@@ -139,7 +132,6 @@ const setCardStyleError = (cardBody, errorDiv, input) => {
 -nome città
 -Il punteggio medio
 -Una descrizione 
-
 */
 const setcardResult = function (nomeCittà, response) {
   nameCity.innerHTML = " City: " + nomeCittà.value;
@@ -148,12 +140,10 @@ const setcardResult = function (nomeCittà, response) {
    */
 
   const descrizione = _.get(response, API_SUMMARY);
-  console.log(descrizione);
   description.innerHTML = "Description: " + descrizione;
 
   /* Score totale */
   const mediumScore = _.get(response, API_MEDIUM_SCORE).toFixed(2);
-  console.log(mediumScore);
 
   totalScore.innerHTML = "Total score: " + mediumScore;
   // Valore medio approssimato a 2 numeri decimali
