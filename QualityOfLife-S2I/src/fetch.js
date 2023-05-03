@@ -12,9 +12,13 @@ import {
 import "lodash";
 
 const API_URL = process.env.API_URL;
-const API_DATA = process.env.API_DATA;
+const API_SCORES = process.env.API_SCORES;
+const API_IMAGES = process.env.API_IMAGES;
 const API_SUMMARY = process.env.API_SUMMARY;
 const API_MEDIUM_SCORE = process.env.API_MEDIUM_SCORE;
+const API_NAME_ITEM = process.env.API_NAME_ITEM;
+const API_SCORE_ITEM = process.env.API_SCORE_ITEM;
+const API_COLOR_ITEM = process.env.API_COLOR_ITEM;
 
 //---------------------- CHIAMATA FETCH -----------------
 
@@ -24,7 +28,6 @@ export const fetchScore = function () {
     nomeCittà.value === undefined ||
     nomeCittà.value == !String
   ) {
-    console.log("la città è undefined");
     return;
   } else {
     /* prendo il valore dell'input e lo inserisco come variale nell'url del fetch */
@@ -71,6 +74,7 @@ export const fetchImg = function () {
 
 //-------------- ShowImage() ----------------
 /* Questa funzione è usata dentro ' fetchImg()' */
+
 const showImage = (response) => {
   /* 'response' verrà passato dalla chiamata 'axios.get() 
   ed è la risposta quando si chiamata l'immagine */
@@ -84,6 +88,7 @@ const showImage = (response) => {
 /* Questa funzione serve per adattare il valore dell'input cercato 
 in modo da aggiungerlo all'url del fetch.
 la userò dentro 'apiUrlScore()' e ' apiUrlImage()' */
+
 const correctName = function (cityName) {
   cityName = cityName.toLowerCase();
   cityName = cityName.replace(/\s+/g, "-");
@@ -100,12 +105,12 @@ let slug;
 
 const apiUrlScore = function () {
   slug = correctName(nomeCittà.value);
-  return API_URL + `${slug}/scores/`;
+  return API_URL + `${slug}` + API_SCORES;
 };
 
 const apiUrlImage = function () {
   slug = correctName(nomeCittà.value);
-  return API_URL + `${slug}/images/`;
+  return API_URL + `${slug}` + API_IMAGES;
 };
 
 //---------------- Stile Card Success --------------
@@ -162,12 +167,12 @@ const setSingleItem = function (categories) {
 
     /* Nome parametro */
     const nameCard = document.createElement("h5");
-    const nameItem = _.get(element, "name");
+    const nameItem = _.get(element, API_NAME_ITEM);
     nameCard.innerHTML = nameItem;
 
     /* SCORE SINGOLO PARAMETRO */
     const score = document.createElement("h6");
-    const scoreItem = _.get(element, "score_out_of_10").toFixed(1);
+    const scoreItem = _.get(element, API_SCORE_ITEM).toFixed(1);
     score.innerHTML = scoreItem + "/10";
 
     //------------- Progress Bar ---------------
@@ -192,14 +197,14 @@ poi questo valore lo imposto come larghezza della 'progressbar'
 per dare la forma alla barra */
 
 const progressBar = function (element, progressBarDiv, progressbar) {
-  const color = _.get(element, "color");
+  const color = _.get(element, API_COLOR_ITEM);
 
   progressBarDiv.classList.add("progress");
 
   progressbar.classList.add("progress-bar");
   progressbar.style.backgroundColor = color;
 
-  var number = _.get(element, "score_out_of_10");
+  var number = _.get(element, API_SCORE_ITEM);
   var percentage = Math.round(number * 10);
   number = percentage + "%";
 
