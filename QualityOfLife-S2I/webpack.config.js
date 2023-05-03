@@ -46,7 +46,9 @@ module.exports = {
       template: "./dist/templateHead.html",
       favicon: "./img/city32px.ico",
     }),
-    new Dotenv({}),
+    new Dotenv({
+      path: "./src/environment-variables.env",
+    }),
   ],
   devtool: "inline-source-map",
 };
