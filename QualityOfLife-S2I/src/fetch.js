@@ -22,7 +22,7 @@ const API_COLOR_ITEM = process.env.API_COLOR_ITEM;
 
 //---------------------- CHIAMATA FETCH -----------------
 
-export const fetchScore = function () {
+export const fetchCity = function () {
   if (
     nomeCittà.value === null ||
     nomeCittà.value === undefined ||
