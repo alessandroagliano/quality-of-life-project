@@ -16,13 +16,15 @@ const API_SCORES = process.env.API_SCORES;
 const API_IMAGES = process.env.API_IMAGES;
 const API_SUMMARY = process.env.API_SUMMARY;
 const API_MEDIUM_SCORE = process.env.API_MEDIUM_SCORE;
+const API_CATEGORIES = process.env.API_CATEGORIES;
+const API_PHOTO = process.env.API_PHOTO;
 const API_NAME_ITEM = process.env.API_NAME_ITEM;
 const API_SCORE_ITEM = process.env.API_SCORE_ITEM;
 const API_COLOR_ITEM = process.env.API_COLOR_ITEM;
 
 //---------------------- CHIAMATA FETCH -----------------
 
-export const fetchCity = function () {
+export const fetchCity = async function () {
   if (
     nomeCittà.value === null ||
     nomeCittà.value === undefined ||
@@ -33,28 +35,39 @@ export const fetchCity = function () {
     /* prendo il valore dell'input e lo inserisco come variale nell'url del fetch */
     const urlScore = apiUrlScore();
 
-    /* chiamata fetch tramite 'axios.get()' */
-    axios
-      .get(urlScore)
-      .then((response) => {
-        // Imposto le classi in caso di risposta positiva
-        setCardStyleSucces(cardBody, errorDiv, input);
-
-        // Inserisco i punteggi
-        setcardResult(nomeCittà, response);
-
-        //Inserisco tutti i singoli parametri
-        const categories = _.get(response, "data.categories");
-
-        setSingleItem(categories);
-      })
-      .then(fetchImg()) // Faccio la chiamata per l'immagine
-      .catch((error) => {
-        setCardStyleError(cardBody, errorDiv, input); // Imposto lo stile in caso di errore
-        if ((error.name = "AxiosError")) {
-          nomeCittà.value = ""; // azzero il campo input
-        }
+    try {
+      const response = await axios.get(urlScore, {
+        validateStatus: function (status) {
+          return status == 200; // Restituisce true solo se lo stato della risposta è inferiore a 500
+        },
       });
+
+      console.log(response.data);
+
+      console.log(response.status);
+      // Imposto le classi in caso di risposta positiva
+      setCardStyleSucces(cardBody, errorDiv, input);
+
+      // Inserisco i punteggi
+      setcardResult(nomeCittà, response);
+
+      //Inserisco tutti i singoli parametri
+      const categories = _.get(response, API_CATEGORIES);
+
+      setSingleItem(categories);
+
+      await fetchImg();
+    } catch (error) {
+      if (error.response.status === 404) {
+        console.error();
+        return;
+      }
+      console.error("ciao");
+      setCardStyleError(cardBody, errorDiv, input); // Imposto lo stile in caso di errore
+      if ((error.name = "AxiosError")) {
+        nomeCittà.value = ""; // azzero il campo input
+      }
+    }
   }
 };
 
@@ -80,8 +93,9 @@ const showImage = (response) => {
   ed è la risposta quando si chiamata l'immagine */
 
   setCardStyleSucces(cardBody, errorDiv, input); // Imposto lo stile
-  const response2 = response.data.photos[0].image.mobile; // Prendo l'url dell'immagine
-  imgCity.src = response2; // inserisco l'url come 'src' nell'html
+  const urlPhoto = _.get(response, API_PHOTO);
+
+  imgCity.src = urlPhoto; // inserisco l'url come 'src' nell'html
 };
 
 //----------------- Correzione Valore Input Città -------------
