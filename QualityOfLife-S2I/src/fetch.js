@@ -53,10 +53,10 @@ const getUrbanAreas = async function () {
 // Eseguo la funzione
 getUrbanAreas();
 
-// --------------------- CHIAMATA GETCITIES -------------
+// --------------------- CHIAMATA FETCHCITYCALL -------------
 // Questa è la funzione principale quando si cercherà una città
 
-export const fetchCallCity = async function () {
+export const fetchCityCall = async function () {
   /* Faccio vari controlli al valore dell'input e poi
   chiamo la funzione 'checkCity' */
   if (
@@ -70,11 +70,11 @@ export const fetchCallCity = async function () {
   }
 };
 
-// -------------------- CHIAMATA GETCITIES --------------
+// -------------------- CHIAMATA CHECKCITY --------------
 
 /* Con questa funzione controllo che la città cercata 
     sia presente nel database Teleport.
-    
+
     Per confrontarlo trasformo tutto con toLowerCase()
 
      Se la città trovata è presente restituisce 1 e lancio 'fetchCity'
