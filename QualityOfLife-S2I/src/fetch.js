@@ -11,6 +11,7 @@ import {
 } from "./dom-elements";
 import "lodash";
 
+// ENV
 const API_URL = process.env.API_URL;
 const API_SCORES = process.env.API_SCORES;
 const API_IMAGES = process.env.API_IMAGES;
@@ -22,9 +23,42 @@ const API_NAME_ITEM = process.env.API_NAME_ITEM;
 const API_SCORE_ITEM = process.env.API_SCORE_ITEM;
 const API_COLOR_ITEM = process.env.API_COLOR_ITEM;
 
-//---------------------- CHIAMATA FETCH -----------------
+//---------------------- CHIAMATA GETURBANSAREAS -----------------
 
-export const fetchCity = async function () {
+/* Dichiaro un array vuoto dove inserirò tutte le città
+ricavate tramite la chiamata axios a Teleport 
+tramite la funzione getUrbanAreas */
+
+let arrayCity = [];
+
+/* Questa funzione mi restituisce un oggetto dove vado ad estrapolare
+un array di oggetti()
+Da questo array applico un map() e ricavo la proprietà 'name'
+In questo modo trasformo  'arrayCity' in un array contente
+la lista completa delle città in Teleport
+arrayCity mi servirà in 'checkCity()' */
+
+const getUrbanAreas = async function () {
+  try {
+    const response = await axios.get(
+      "https://api.teleport.org/api/urban_areas/"
+    );
+    arrayCity = response.data["_links"]["ua:item"]; //Array di oggetti
+    arrayCity = arrayCity.map((city) => city.name); // lista di tutte le città in un array
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// Eseguo la funzione
+getUrbanAreas();
+
+// --------------------- CHIAMATA GETCITIES -------------
+// Questa è la funzione principale quando si cercherà una città
+
+export const fetchCallCity = async function () {
+  /* Faccio vari controlli al valore dell'input e poi
+  chiamo la funzione 'checkCity' */
   if (
     nomeCittà.value === null ||
     nomeCittà.value === undefined ||
@@ -32,50 +66,77 @@ export const fetchCity = async function () {
   ) {
     return;
   } else {
-    /* prendo il valore dell'input e lo inserisco come variale nell'url del fetch */
-    const urlScore = apiUrlScore();
+    checkCity();
+  }
+};
 
-    try {
-      const response = await axios.get(urlScore, {
-        validateStatus: function (status) {
-          return status == 200; // Restituisce true solo se lo stato della risposta è inferiore a 500
-        },
-      });
+// -------------------- CHIAMATA GETCITIES --------------
 
-      console.log(response.data);
+/* Con questa funzione controllo che la città cercata 
+    sia presente nel database Teleport.
+    
+    Per confrontarlo trasformo tutto con toLowerCase()
 
-      console.log(response.status);
-      // Imposto le classi in caso di risposta positiva
-      setCardStyleSucces(cardBody, errorDiv, input);
+     Se la città trovata è presente restituisce 1 e lancio 'fetchCity'
+     se non è presente gestisco l'errore.
 
-      // Inserisco i punteggi
-      setcardResult(nomeCittà, response);
+     In questa maniera si evita l'errore in console
+     nel caso la città cercata non sia presente nel database di Teleport
 
-      //Inserisco tutti i singoli parametri
-      const categories = _.get(response, API_CATEGORIES);
+      */
 
-      setSingleItem(categories);
+const checkCity = async function () {
+  try {
+    const foundIndex = arrayCity.findIndex(
+      (item) => item.toLowerCase() === nomeCittà.value.toLowerCase()
+    );
 
-      await fetchImg();
-    } catch (error) {
-      if (error.response.status === 404) {
-        console.error();
-        return;
-      }
-      console.error("ciao");
+    if (foundIndex !== -1) {
+      fetchCity();
+    } else {
       setCardStyleError(cardBody, errorDiv, input); // Imposto lo stile in caso di errore
-      if ((error.name = "AxiosError")) {
-        nomeCittà.value = ""; // azzero il campo input
-      }
+
+      nomeCittà.value = ""; // azzero il campo input
+
+      return;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// ------------------ CHIAMATA FETCH CITY ------------------
+export const fetchCity = async function () {
+  /* prendo il valore dell'input e lo inserisco come variale nell'url del fetch */
+  const urlScore = apiUrlScore();
+
+  try {
+    const response = await axios.get(urlScore);
+
+    // Imposto le classi in caso di risposta positiva
+    setCardStyleSucces(cardBody, errorDiv, input);
+
+    // Inserisco i punteggi
+    setcardResult(nomeCittà, response);
+
+    //Inserisco tutti i singoli parametri
+    const categories = _.get(response, API_CATEGORIES);
+
+    setSingleItem(categories);
+
+    fetchImg();
+  } catch (error) {
+    setCardStyleError(cardBody, errorDiv, input); // Imposto lo stile in caso di errore
+    if ((error.name = "AxiosError")) {
+      nomeCittà.value = ""; // azzero il campo input
     }
   }
 };
 
 // ------------------- CHIAMATA FETCH IMG --------------
-/* Questa funzione verrà chiamata in FetchScore
- dopo la chiamata per lo 'score' con .then */
+// Questa funzione verrà chiamata in FetchCity
 export const fetchImg = function () {
-  const urlScore = apiUrlImage(); // dichiaro l'url per la chiamata fetch dell'immagine
+  const urlScore = apiUrlImage(); // Imposto l'url per la chiamata fetch dell'immagine
 
   axios
     .get(urlScore)
@@ -89,24 +150,12 @@ export const fetchImg = function () {
 /* Questa funzione è usata dentro ' fetchImg()' */
 
 const showImage = (response) => {
-  /* 'response' verrà passato dalla chiamata 'axios.get() 
-  ed è la risposta quando si chiamata l'immagine */
+  // 'response' verrà passato dalla chiamata 'axios.get() di 'fetchImg'
 
   setCardStyleSucces(cardBody, errorDiv, input); // Imposto lo stile
-  const urlPhoto = _.get(response, API_PHOTO);
+  const urlPhoto = _.get(response, API_PHOTO); // Prendo l'url della foto
 
   imgCity.src = urlPhoto; // inserisco l'url come 'src' nell'html
-};
-
-//----------------- Correzione Valore Input Città -------------
-/* Questa funzione serve per adattare il valore dell'input cercato 
-in modo da aggiungerlo all'url del fetch.
-la userò dentro 'apiUrlScore()' e ' apiUrlImage()' */
-
-const correctName = function (cityName) {
-  cityName = cityName.toLowerCase();
-  cityName = cityName.replace(/\s+/g, "-");
-  return cityName;
 };
 
 //----------------------- Url -------------------------------
@@ -127,6 +176,16 @@ const apiUrlImage = function () {
   return API_URL + `${slug}` + API_IMAGES;
 };
 
+//----------------- Correzione Valore Input Città -------------
+/* Questa funzione serve per adattare il valore dell'input cercato 
+in modo da aggiungerlo all'url del fetch.
+la userò dentro 'apiUrlScore()' e ' apiUrlImage()' */
+
+const correctName = function (cityName) {
+  cityName = cityName.toLowerCase();
+  cityName = cityName.replace(/\s+/g, "-");
+  return cityName;
+};
 //---------------- Stile Card Success --------------
 
 // Lo stile della card in caso di successo nella chiamata fetch
@@ -152,30 +211,32 @@ const setCardStyleError = (cardBody, errorDiv, input) => {
 -Il punteggio medio
 -Una descrizione 
 */
+
 const setcardResult = function (nomeCittà, response) {
   nameCity.innerHTML = " City: " + nomeCittà.value;
-  scoreDiv.innerHTML = "";
-  /* azzero il valore dei parametri nel caso di una seconda ricerca
-   */
+  scoreDiv.innerHTML = ""; // azzero il valore dei parametri nel caso di una seconda ricerca
 
+  // Descrizione
   const descrizione = _.get(response, API_SUMMARY);
   description.innerHTML = "Description: " + descrizione;
 
-  /* Score totale */
+  // Score totale
   const mediumScore = _.get(response, API_MEDIUM_SCORE).toFixed(2);
 
-  totalScore.innerHTML = "Total score: " + mediumScore;
   // Valore medio approssimato a 2 numeri decimali
+  totalScore.innerHTML = "Total score: " + mediumScore;
 };
 
 //------------------- Risultati Singoli Parametri ----------
-/* Con questa funzione creo dinamicamente i vari div dei singoli item 
+/* Con questa funzione creo dinamicamente i vari div dei singoli item.
 'categories' è un array contente i singoli valori delle varie statistiche,
-da li ci credo un 'forEach()'.
+da li ci applico un 'forEach()'.
+
 Inserisco nome, score e la progressBar con la funzione 'progressBar()'*/
 
 const setSingleItem = function (categories) {
   categories.forEach((element) => {
+    //Creo i div e aggiungo lo stile
     const card = document.createElement("div");
     card.classList.add("col-6", "my-1");
 
@@ -191,6 +252,7 @@ const setSingleItem = function (categories) {
 
     //------------- Progress Bar ---------------
 
+    // Creo i div della barra del punteggio
     let progressBarDiv = document.createElement("div");
     let progressbar = document.createElement("div");
     progressBar(element, progressBarDiv, progressbar);

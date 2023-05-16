@@ -3,13 +3,13 @@ import "bootstrap";
 import "./progressbar.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import { fetchCity } from "./fetch";
+import { fetchCallCity } from "./fetch";
 
 import { Search, input } from "./dom-elements";
 
-Search.addEventListener("click", fetchCity);
+Search.addEventListener("click", fetchCallCity);
 input.addEventListener("keydown", function (event) {
   if (event.keyCode === 13) {
-    fetchCity();
+    fetchCallCity();
   }
 });
